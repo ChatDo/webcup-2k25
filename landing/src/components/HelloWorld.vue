@@ -60,16 +60,60 @@
         </div>
       </div>
 
-<!--BACKGROUND BLURRED - BOTTOM -->
-      <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
-        <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2
-        bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] shape-blurred-bottom"
-              />
+      <div class="relative">
+        <div aria-hidden="true" class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300" />
+        </div>
+        <div class="relative flex justify-center">
+          <span class="bg-white px-2 text-sm text-gray-500">En savoir plus</span>
+        </div>
       </div>
-<!--BACKGROUND BLURRED - BOTTOM -->
 
+      <div class="max-w-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
+        <div class="max-w-1/2">
+
+          🎭 TheEnd.page
+          <br>
+          La page de départ qu’on n’oublie pas.
+          <br>
+          Un job quitté ?
+          <br>
+          Un projet terminé ?
+          <br>
+          Une rupture ?
+          <br>
+          Un canal Discord déserté ?
+          <br>
+
+          Crée ta page de sortie : stylée, dramatique, ironique, touchante ou complètement absurde.
+          <br>
+          Ajoute des GIFs, des sons, des larmes (ou pas) et raconte ta version de l’histoire.
+          <br>
+
+          👉 Une page unique à partager.
+          <br>
+          👉 Un dernier mot qui claque.
+          <br>
+          👉 Un adieu qui se transforme en légende.
+
+          Parce que si c’est la fin…
+          <br>
+          Autant la rendre inoubliable. 💥
+          <br>
+        </div>
+      </div>
+
+<!--BACKGROUND BLURRED - BOTTOM -->
+        <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
+          <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2
+          bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] shape-blurred-bottom"
+          />
+        <div>
+            <!--BACKGROUND BLURRED - BOTTOM -->
+      </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>

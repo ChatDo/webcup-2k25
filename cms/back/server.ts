@@ -19,5 +19,5 @@ server.listen({port: 3000}, (err, address) => {
         server.log.error(err)
         process.exit(1)
     }
-    // Server is now listening on ${address}
+    console.log(`Server listening on ${address}`)
 })

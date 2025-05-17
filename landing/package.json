@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "prod": "cp dist/* ../../public_html",
+    "prod": "cp -r dist/* ../../public_html",
     "preview": "vite preview"
   },
   "dependencies": {

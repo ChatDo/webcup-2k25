@@ -1,4 +1,4 @@
-import {Component} from "solid-js";
+import {Component, JSXElement} from "solid-js";
 import {
     Dialog,
     DialogContent,
@@ -11,6 +11,7 @@ import {
 interface ElementSelectDialogProps {
     open: boolean;
     onClose: () => void;
+    onAdd: (type: any, content: string) => void;
 }
 
 export const ElementSelectDialog: Component<ElementSelectDialogProps> = (props) => {
@@ -24,7 +25,9 @@ export const ElementSelectDialog: Component<ElementSelectDialogProps> = (props) 
                     </DialogDescription>
                 </DialogHeader>
                 <div class="grid grid-cols-6 gap-4">
-                    {/* Add your element options here */}
+                    <button type="button" class="btn" onClick={() => props.onAdd("text", "")}>
+                        Button
+                    </button>
                 </div>
                 <DialogFooter>
                     <button type="button" class="btn">Cancel</button>

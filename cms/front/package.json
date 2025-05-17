@@ -21,6 +21,7 @@
     "vite-plugin-solid": "^2.11.6"
   },
   "dependencies": {
+    "@corvu/resizable": "^0.2.5",
     "@neodrag/solid": "^2.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

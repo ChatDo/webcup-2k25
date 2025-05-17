@@ -267,12 +267,6 @@ export default function PageBuilder() {
                 >
                     Save
                 </button>
-                <button
-                    class="px-4 py-2 rounded bg-indigo-600 text-white hover:bg-indigo-700 transition"
-                    onClick={downloadStaticPage}
-                >
-                    Download Static Page
-                </button>
             </div>
 
             {/* GIF Picker Modal */}

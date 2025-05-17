@@ -10,7 +10,7 @@ export default defineConfig({
     },
     build: {
         target: 'esnext',
-        assetsDir: 'assets',
+        assetsDir: './assets',
     },
     resolve: {
         alias: {

@@ -8,12 +8,15 @@ const static_1 = __importDefault(require("@fastify/static"));
 const node_path_1 = __importDefault(require("node:path"));
 const node_fs_1 = __importDefault(require("node:fs"));
 const cuid_1 = __importDefault(require("cuid"));
+// @ts-ignore
+const fastify_fingerprint_1 = __importDefault(require("fastify-fingerprint"));
 const server = (0, fastify_1.default)({ logger: true, });
 const prefix = '/editor';
 server.register(static_1.default, {
     root: node_path_1.default.join(__dirname, 'public'),
     prefix: "/editor"
 });
+server.register(fastify_fingerprint_1.default);
 server.post(prefix + '/create-page', (request, reply) => {
     const uid = (0, cuid_1.default)();
     const pageContent = request.body;
@@ -24,6 +27,10 @@ server.post(prefix + '/create-page', (request, reply) => {
         message: "Page created successfully",
         uid: uid
     });
+});
+server.get(prefix + "/fingerprint", (request, reply) => {
+    // @ts-ignore
+    reply.send(`ClientID: ${request.fingerprint}`);
 });
 const callback = (err, address) => {
     if (err) {

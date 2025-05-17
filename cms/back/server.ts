@@ -2,7 +2,9 @@ import fastify from "fastify"
 import fastifyStatic from "@fastify/static"
 import path from "node:path"
 import fs from "node:fs"
-import cuid from 'cuid';
+import cuid from "cuid";
+// @ts-ignore
+import fingerprint from "fastify-fingerprint"
 
 declare const PhusionPassenger: any
 const server = fastify({logger: true,})
@@ -12,6 +14,8 @@ server.register(fastifyStatic, {
     root: path.join(__dirname, 'public'),
     prefix: "/editor"
 })
+server.register(fingerprint as any);
+
 
 server.post(prefix + '/create-page', (request, reply) => {
     const uid = cuid();
@@ -24,6 +28,11 @@ server.post(prefix + '/create-page', (request, reply) => {
         uid: uid
     })
 })
+
+server.get(prefix + "/fingerprint", (request, reply) => {
+    // @ts-ignore
+    reply.send(`ClientID: ${request.fingerprint}`);
+});
 
 const callback: (err: Error | null, address: string) => void = (err, address) => {
     if (err) {

@@ -1,13 +1,8 @@
 import type {Component} from 'solid-js';
-import PageBuilder from "~/modules/editor/PageBuilder";
-import {EditorLayout} from "~/modules/editor/EditorLayout";
+import Editor from './modules/editor/Editor';
 
-const App: Component = () => {
+export const App: Component = () => {
     return (
-        <EditorLayout>
-            <PageBuilder/>
-        </EditorLayout>
+        <Editor/>
     );
 };
-
-export default App;

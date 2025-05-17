@@ -1,0 +1,94 @@
+import {createSignal, ParentComponent} from "solid-js"
+import {
+    ContextMenu,
+    ContextMenuCheckboxItem,
+    ContextMenuContent,
+    ContextMenuGroup,
+    ContextMenuGroupLabel,
+    ContextMenuItem,
+    ContextMenuPortal,
+    ContextMenuRadioGroup,
+    ContextMenuRadioItem,
+    ContextMenuSeparator,
+    ContextMenuShortcut,
+    ContextMenuSub,
+    ContextMenuSubContent,
+    ContextMenuSubTrigger,
+    ContextMenuTrigger
+} from "~/modules/solidui/components/context-menu"
+
+export const EditorContextMenu: ParentComponent<{
+    onAddGif?: () => void,
+    onAddImage?: () => void,
+    onAddText?: () => void
+}> = (props) => {
+    const [showGitLog, setShowGitLog] = createSignal(true)
+    const [showHistory, setShowHistory] = createSignal(false)
+    const [branch, setBranch] = createSignal("main")
+
+    return (
+        <ContextMenu>
+            <ContextMenuTrigger>
+                {props.children}
+            </ContextMenuTrigger>
+            <ContextMenuPortal>
+                <ContextMenuContent class="w-48">
+                    <ContextMenuGroup>
+                        <ContextMenuGroupLabel>Add Component</ContextMenuGroupLabel>
+                        <ContextMenuItem onSelect={props.onAddGif}>
+                            GIF
+                        </ContextMenuItem>
+                        <ContextMenuItem onSelect={props.onAddImage}>
+                            Image
+                        </ContextMenuItem>
+                        <ContextMenuItem onSelect={props.onAddText}>
+                            Text
+                        </ContextMenuItem>
+                    </ContextMenuGroup>
+                    <ContextMenuSeparator/>
+                    <ContextMenuItem>
+                        <span>Commit</span>
+                        <ContextMenuShortcut>⌘+K</ContextMenuShortcut>
+                    </ContextMenuItem>
+                    <ContextMenuItem>
+                        <span>Push</span>
+                        <ContextMenuShortcut>⇧+⌘+K</ContextMenuShortcut>
+                    </ContextMenuItem>
+                    <ContextMenuItem disabled>
+                        <span>Update Project</span>
+                        <ContextMenuShortcut>⌘+T</ContextMenuShortcut>
+                    </ContextMenuItem>
+
+                    {/* Rest of existing menu items */}
+                    <ContextMenuSub overlap>
+                        <ContextMenuSubTrigger>GitHub</ContextMenuSubTrigger>
+                        <ContextMenuPortal>
+                            <ContextMenuSubContent>
+                                <ContextMenuItem>Create Pull Request…</ContextMenuItem>
+                                <ContextMenuItem>View Pull Requests</ContextMenuItem>
+                                <ContextMenuItem>Sync Fork</ContextMenuItem>
+                                <ContextMenuSeparator/>
+                                <ContextMenuItem>Open on GitHub</ContextMenuItem>
+                            </ContextMenuSubContent>
+                        </ContextMenuPortal>
+                    </ContextMenuSub>
+                    <ContextMenuSeparator/>
+                    <ContextMenuCheckboxItem checked={showGitLog()} onChange={setShowGitLog}>
+                        Show Git Log
+                    </ContextMenuCheckboxItem>
+                    <ContextMenuCheckboxItem checked={showHistory()} onChange={setShowHistory}>
+                        Show History
+                    </ContextMenuCheckboxItem>
+                    <ContextMenuSeparator/>
+                    <ContextMenuGroup>
+                        <ContextMenuGroupLabel>Branches</ContextMenuGroupLabel>
+                        <ContextMenuRadioGroup value={branch()} onChange={setBranch}>
+                            <ContextMenuRadioItem value="main">main</ContextMenuRadioItem>
+                            <ContextMenuRadioItem value="develop">develop</ContextMenuRadioItem>
+                        </ContextMenuRadioGroup>
+                    </ContextMenuGroup>
+                </ContextMenuContent>
+            </ContextMenuPortal>
+        </ContextMenu>
+    )
+}

@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@corvu/resizable": "^0.2.5",
+    "@kobalte/core": "^0.13.9",
     "@neodrag/solid": "^2.3.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

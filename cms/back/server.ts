@@ -1,7 +1,8 @@
 import fastify from "fastify"
 import fastifyStatic from "@fastify/static"
 import path from "node:path"
-import * as repl from "node:repl";
+import fs from "node:fs"
+import cuid from 'cuid';
 
 declare const PhusionPassenger: any
 const server = fastify({logger: true,})
@@ -13,7 +14,15 @@ server.register(fastifyStatic, {
 })
 
 server.post(prefix + '/create-page', (request, reply) => {
-    reply.send(request.body);
+    const uid = cuid();
+    const pageContent = request.body as any;
+    const filePath = path.join(__dirname, "..", "..", "..", "public_html", "page", `${uid}.html`);
+    fs.writeFileSync(filePath, pageContent);
+    reply.send({
+        status: "success",
+        message: "Page created successfully",
+        uid: uid
+    })
 })
 
 const callback: (err: Error | null, address: string) => void = (err, address) => {

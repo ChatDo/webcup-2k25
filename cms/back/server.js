@@ -6,6 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const static_1 = __importDefault(require("@fastify/static"));
 const node_path_1 = __importDefault(require("node:path"));
+const node_fs_1 = __importDefault(require("node:fs"));
+const cuid_1 = __importDefault(require("cuid"));
 const server = (0, fastify_1.default)({ logger: true, });
 const prefix = '/editor';
 server.register(static_1.default, {
@@ -13,7 +15,15 @@ server.register(static_1.default, {
     prefix: "/editor"
 });
 server.post(prefix + '/create-page', (request, reply) => {
-    reply.send(request.body);
+    const uid = (0, cuid_1.default)();
+    const pageContent = request.body;
+    const filePath = node_path_1.default.join(__dirname, "..", "..", "..", "public_html", "page", `${uid}.html`);
+    node_fs_1.default.writeFileSync(filePath, pageContent);
+    reply.send({
+        status: "success",
+        message: "Page created successfully",
+        uid: uid
+    });
 });
 const callback = (err, address) => {
     if (err) {

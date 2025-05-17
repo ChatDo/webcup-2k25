@@ -1,4 +1,4 @@
-import { EmojiPicker } from 'solid-emoji-picker';
+import {EmojiPicker} from 'solid-emoji-picker';
 
 export default function EmojiPickerComponent() {
     function pickEmoji(emoji) {
@@ -6,6 +6,6 @@ export default function EmojiPickerComponent() {
     }
 
     return (
-        <EmojiPicker onEmojiClick={pickEmoji} />
+        <EmojiPicker onEmojiClick={pickEmoji}/>
     );
 }

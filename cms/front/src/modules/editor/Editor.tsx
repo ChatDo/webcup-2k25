@@ -1,13 +1,5 @@
-import {createSignal, onMount, Show} from "solid-js";
+import {createSignal, onMount} from "solid-js";
 import {createDraggable} from "@neodrag/solid";
-import {
-    ContextMenu,
-    ContextMenuContent,
-    ContextMenuItem,
-    ContextMenuGroupLabel,
-    ContextMenuSeparator,
-    ContextMenuTrigger,
-} from "~/modules/solidui/components/context-menu";
 import {EditorContextMenu} from "~/modules/editor/EditorContextMenu";
 
 const THEMES = {
@@ -166,12 +158,7 @@ export default function PageBuilder() {
         setElements(elms => elms.filter(elm => elm.id !== id));
     };
 
-    const savePage = () => {
-        localStorage.setItem("savedPage", JSON.stringify(elements()));
-        alert("Page saved!");
-    };
-
-    const generateStaticHTML = () => {
+    const generateStaticPage = () => {
         const currentTheme = THEMES[theme()];
         const elementsHTML = elements().map(el => {
             const style = `position:absolute; left:${el.x}px; top:${el.y}px; background:rgba(255,255,255,0.9); border:1px solid #ccc; border-radius:8px; padding:12px; max-width:320px; box-shadow:0 2px 8px rgba(0,0,0,0.08);`;
@@ -201,17 +188,16 @@ export default function PageBuilder() {
 </html>`;
     };
 
-    const downloadStaticPage = () => {
-        const html = generateStaticHTML();
+    const savePage = async () => {
+        const html = generateStaticPage();
         const blob = new Blob([html], {type: "text/html"});
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "my-page.html";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+
+        const resp = await fetch("create-page", {
+            method: "POST",
+            body: blob,
+        })
+
+        console.log(resp);
     };
 
     const themeConfig = THEMES[theme()];

@@ -1,6 +1,7 @@
 import {createSignal, onMount} from "solid-js";
 import {createDraggable} from "@neodrag/solid";
 import {EditorContextMenu} from "~/modules/editor/EditorContextMenu";
+import {ElementSelectDialog} from "~/modules/editor/ElementSelectDialog";
 
 const THEMES = {
     dramatic: {
@@ -158,6 +159,11 @@ export default function PageBuilder() {
         setElements(elms => elms.filter(elm => elm.id !== id));
     };
 
+    const saveLocalStorage = () => {
+        localStorage.setItem("savedPage", JSON.stringify(elements()));
+        alert("Page saved!");
+    };
+
     const generateStaticPage = () => {
         const currentTheme = THEMES[theme()];
         const elementsHTML = elements().map(el => {
@@ -190,17 +196,28 @@ export default function PageBuilder() {
 
     const savePage = async () => {
         const html = generateStaticPage();
-        // const blob = new Blob([html], {type: "text/html"});
+        const elemJson = btoa(JSON.stringify(elements()));
 
-        const resp = await fetch("create-page", {
+        const body = {
+            html,
+            elements: elemJson,
+        };
+
+
+        const resp = await fetch("page", {
             method: "POST",
-            body: html,
+            body: JSON.stringify(body),
+            headers: {
+                "Content-Type": "application/json",
+            },
         })
 
         console.log(resp);
     };
 
     const themeConfig = THEMES[theme()];
+
+    const [open, setOpen] = createSignal(false);
 
     return (
         <div class={`min-h-screen ${themeConfig.background} ${themeConfig.color} ${themeConfig.font} p-6`}>
@@ -278,8 +295,7 @@ export default function PageBuilder() {
             )}
 
             {/* Canvas with Context Menu */}
-            <EditorContextMenu>
-
+            <EditorContextMenu addComponent={() => setOpen(true)}>
                 <div
                     id="canvas"
                     class="relative w-full h-[80vh] border-2 border-dashed border-gray-300 bg-white/20 rounded-xl overflow-hidden"
@@ -294,6 +310,9 @@ export default function PageBuilder() {
                     ))}
                 </div>
             </EditorContextMenu>
+            <ElementSelectDialog open={open()} onClose={
+                () => setOpen(false)
+            }/>
         </div>
     );
 }

@@ -18,9 +18,7 @@ import {
 } from "~/modules/solidui/components/context-menu"
 
 export const EditorContextMenu: ParentComponent<{
-    onAddGif?: () => void,
-    onAddImage?: () => void,
-    onAddText?: () => void
+    addComponent: () => void
 }> = (props) => {
     const [showGitLog, setShowGitLog] = createSignal(true)
     const [showHistory, setShowHistory] = createSignal(false)
@@ -34,15 +32,8 @@ export const EditorContextMenu: ParentComponent<{
             <ContextMenuPortal>
                 <ContextMenuContent class="w-48">
                     <ContextMenuGroup>
-                        <ContextMenuGroupLabel>Add Component</ContextMenuGroupLabel>
-                        <ContextMenuItem onSelect={props.onAddGif}>
-                            GIF
-                        </ContextMenuItem>
-                        <ContextMenuItem onSelect={props.onAddImage}>
-                            Image
-                        </ContextMenuItem>
-                        <ContextMenuItem onSelect={props.onAddText}>
-                            Text
+                        <ContextMenuItem onSelect={props.addComponent}>
+                            Add Component
                         </ContextMenuItem>
                     </ContextMenuGroup>
                     <ContextMenuSeparator/>

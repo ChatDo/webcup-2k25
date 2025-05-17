@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "prod": "mkdir ../../public_html/editor && cp -r dist/* ../../public_html/editor"
+    "prod": "mkdir -p ../../public_html/editor && cp -r dist/* ../../public_html/editor"
   },
   "license": "MIT",
   "devDependencies": {

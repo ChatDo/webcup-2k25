@@ -190,11 +190,11 @@ export default function PageBuilder() {
 
     const savePage = async () => {
         const html = generateStaticPage();
-        const blob = new Blob([html], {type: "text/html"});
+        // const blob = new Blob([html], {type: "text/html"});
 
         const resp = await fetch("create-page", {
             method: "POST",
-            body: blob,
+            body: html,
         })
 
         console.log(resp);

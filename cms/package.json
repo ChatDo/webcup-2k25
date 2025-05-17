@@ -8,7 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "prod": "git pull && cp dist/* ../../public_html/"
+    "prod": "git pull && mkdir ../../public_html/editor && cp dist/* ../../public_html/editor"
   },
   "license": "MIT",
   "devDependencies": {

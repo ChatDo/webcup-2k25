@@ -1,0 +1,19 @@
+{
+  "name": "webcup-2k25",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "prod": "cd cms && npm run prod && cd ../landing && npm run prod"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChatDo/webcup-2k25.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChatDo/webcup-2k25/issues"
+  },
+  "homepage": "https://github.com/ChatDo/webcup-2k25#readme",
+  "description": ""
+}

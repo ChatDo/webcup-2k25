@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:prod": "npm build && npm start",
+    "start:prod": "npm run build && npm start",
     "build": "tsc -p tsconfig.json",
-    "start": "node index.js"
+    "start": "node server.js"
   },
   "type": "module",
   "keywords": [],

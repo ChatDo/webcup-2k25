@@ -6,19 +6,28 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fastify_1 = __importDefault(require("fastify"));
 const static_1 = __importDefault(require("@fastify/static"));
 const node_path_1 = __importDefault(require("node:path"));
-const server = (0, fastify_1.default)();
+const server = (0, fastify_1.default)({ logger: true });
 server.register(static_1.default, {
     root: node_path_1.default.join(__dirname, 'public')
 });
-// Declare a route
 server.get('/', (request, reply) => {
     reply.send({ hello: 'world' });
 });
-// Run the server!
-server.listen({ port: 3000 }, (err, address) => {
-    if (err) {
-        server.log.error(err);
-        process.exit(1);
-    }
-    console.log(`Server listening on ${address}`);
-});
+if (typeof (PhusionPassenger) !== 'undefined') {
+    server.listen({ path: "passenger", host: "127.0.0.1" }, (err, address) => {
+        if (err) {
+            server.log.error(err);
+            process.exit(1);
+        }
+        console.log(`Server listening on ${address}`);
+    });
+}
+else {
+    server.listen({ port: 3000 }, (err, address) => {
+        if (err) {
+            server.log.error(err);
+            process.exit(1);
+        }
+        console.log(`Server listening on ${address}`);
+    });
+}

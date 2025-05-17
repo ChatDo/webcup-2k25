@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "prod": "cd cms && npm run prod && cd ../landing && npm run prod"
+    "prod": "git pull && cd cms && npm run prod && cd ../landing && npm run prod"
   },
   "repository": {
     "type": "git",

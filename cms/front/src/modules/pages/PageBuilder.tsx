@@ -1,5 +1,6 @@
 import {createSignal, onMount} from "solid-js";
 import {createDraggable} from "@neodrag/solid";
+import GifPlaceholder from "~/modules/common/gif-placeholder";
 
 const THEMES = {
     dramatic: {
@@ -62,6 +63,12 @@ const DraggableElement = (props) => {
                     alt="GIF"
                     style={{width: "100%", "max-width": "280px", "max-height": "200px", display: "block"}}
                 />
+            )}
+            {props.type === "gif-placeholder" && (
+                    <GifPlaceholder
+                            url={props.content}
+                            style={{width: "100%", "max-width": "280px", "max-height": "200px", display: "block"}}
+                    />
             )}
             <button
                 onClick={() => props.removeElement(props.id)}
@@ -282,7 +289,12 @@ export default function PageBuilder() {
                     Add {selectedType().toUpperCase()}
                 </button>
 
-                <button onClick={() => fileInput.click()}>Upload Image</button>
+                {/*<button onClick={() => fileInput.click()}>Upload Image</button>*/}
+                <button type="button"
+                        onClick={() => fileInput.click()}
+                        class="rounded-md bg-blacktext-gray-900 shadow-xs ring-1 ring-gray-300
+                        ring-inset hover:bg-blue-400">Upload image</button>
+
                 <input
                     type="file"
                     accept="image/*"

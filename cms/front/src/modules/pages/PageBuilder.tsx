@@ -84,7 +84,7 @@ const GifPicker = ({onSelect, onClose}) => {
 
     const searchGifs = async () => {
         setLoading(true);
-        const apiKey = "YOUR_GIPHY_API_KEY";
+        const apiKey = "vUxKMs8WVIi7ks4PNuknJQ7tnsRYslx6";
         const response = await fetch(
             `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${encodeURIComponent(
                 search()
@@ -148,7 +148,7 @@ export default function PageBuilder() {
         if (saved) setElements(JSON.parse(saved));
     });
 
-    const addElement = (type, content = "") => {
+    const addElement = (type: any, content = "") => {
         let newContent = content;
         if (type === "text") newContent = "Edit me!";
         if (type === "image" && !content) newContent = imageUrl();

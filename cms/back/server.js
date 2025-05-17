@@ -9,10 +9,11 @@ const node_path_1 = __importDefault(require("node:path"));
 const server = (0, fastify_1.default)({ logger: true, });
 const prefix = '/editor';
 server.register(static_1.default, {
-    root: node_path_1.default.join(__dirname, 'public')
+    root: node_path_1.default.join(__dirname, 'public'),
+    prefix: "editor"
 });
-server.get(prefix + '/', (request, reply) => {
-    reply.send({ hello: 'world' });
+server.post(prefix + '/create-page', (request, reply) => {
+    reply.send(request.body);
 });
 const callback = (err, address) => {
     if (err) {

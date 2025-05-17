@@ -1,17 +1,19 @@
 import fastify from "fastify"
 import fastifyStatic from "@fastify/static"
 import path from "node:path"
+import * as repl from "node:repl";
 
 declare const PhusionPassenger: any
 const server = fastify({logger: true,})
 const prefix = '/editor'
 
 server.register(fastifyStatic, {
-    root: path.join(__dirname, 'public')
+    root: path.join(__dirname, 'public'),
+    prefix: "editor"
 })
 
-server.get(prefix + '/', (request, reply) => {
-    reply.send({hello: 'world'})
+server.post(prefix + '/create-page', (request, reply) => {
+    reply.send(request.body);
 })
 
 const callback: (err: Error | null, address: string) => void = (err, address) => {

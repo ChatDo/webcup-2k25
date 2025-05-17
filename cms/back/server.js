@@ -17,11 +17,11 @@ server.register(static_1.default, {
     prefix: "/editor"
 });
 server.register(fastify_fingerprint_1.default);
-server.post(prefix + '/create-page', (request, reply) => {
+server.post(prefix + '/page', (request, reply) => {
     const uid = (0, cuid_1.default)();
     const pageContent = request.body;
     const filePath = node_path_1.default.join(__dirname, "..", "..", "..", "public_html", "page", `${uid}.html`);
-    node_fs_1.default.writeFileSync(filePath, pageContent);
+    node_fs_1.default.writeFileSync(filePath, pageContent.html);
     reply.send({
         status: "success",
         message: "Page created successfully",

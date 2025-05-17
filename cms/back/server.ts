@@ -17,11 +17,11 @@ server.register(fastifyStatic, {
 server.register(fingerprint as any);
 
 
-server.post(prefix + '/create-page', (request, reply) => {
+server.post(prefix + '/page', (request, reply) => {
     const uid = cuid();
-    const pageContent = request.body as any;
+    const pageContent = request.body as { html: string, elements: string };
     const filePath = path.join(__dirname, "..", "..", "..", "public_html", "page", `${uid}.html`);
-    fs.writeFileSync(filePath, pageContent);
+    fs.writeFileSync(filePath, pageContent.html);
     reply.send({
         status: "success",
         message: "Page created successfully",

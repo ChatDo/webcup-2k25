@@ -1,4 +1,4 @@
-export default function GifPlaceholder() {
+export default function GifPlaceholder(url: string | null) {
     return (
         <button
             type="button"

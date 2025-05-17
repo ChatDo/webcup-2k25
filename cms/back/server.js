@@ -10,7 +10,7 @@ const server = (0, fastify_1.default)({ logger: true, });
 const prefix = '/editor';
 server.register(static_1.default, {
     root: node_path_1.default.join(__dirname, 'public'),
-    prefix: "editor"
+    prefix: "/editor"
 });
 server.post(prefix + '/create-page', (request, reply) => {
     reply.send(request.body);

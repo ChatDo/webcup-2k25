@@ -20,10 +20,6 @@ import {
 export const EditorContextMenu: ParentComponent<{
     addComponent: () => void
 }> = (props) => {
-    const [showGitLog, setShowGitLog] = createSignal(true)
-    const [showHistory, setShowHistory] = createSignal(false)
-    const [branch, setBranch] = createSignal("main")
-
     return (
         <ContextMenu>
             <ContextMenuTrigger>
@@ -35,48 +31,6 @@ export const EditorContextMenu: ParentComponent<{
                         <ContextMenuItem onSelect={props.addComponent}>
                             Add Component
                         </ContextMenuItem>
-                    </ContextMenuGroup>
-                    <ContextMenuSeparator/>
-                    <ContextMenuItem>
-                        <span>Commit</span>
-                        <ContextMenuShortcut>⌘+K</ContextMenuShortcut>
-                    </ContextMenuItem>
-                    <ContextMenuItem>
-                        <span>Push</span>
-                        <ContextMenuShortcut>⇧+⌘+K</ContextMenuShortcut>
-                    </ContextMenuItem>
-                    <ContextMenuItem disabled>
-                        <span>Update Project</span>
-                        <ContextMenuShortcut>⌘+T</ContextMenuShortcut>
-                    </ContextMenuItem>
-
-                    {/* Rest of existing menu items */}
-                    <ContextMenuSub overlap>
-                        <ContextMenuSubTrigger>GitHub</ContextMenuSubTrigger>
-                        <ContextMenuPortal>
-                            <ContextMenuSubContent>
-                                <ContextMenuItem>Create Pull Request…</ContextMenuItem>
-                                <ContextMenuItem>View Pull Requests</ContextMenuItem>
-                                <ContextMenuItem>Sync Fork</ContextMenuItem>
-                                <ContextMenuSeparator/>
-                                <ContextMenuItem>Open on GitHub</ContextMenuItem>
-                            </ContextMenuSubContent>
-                        </ContextMenuPortal>
-                    </ContextMenuSub>
-                    <ContextMenuSeparator/>
-                    <ContextMenuCheckboxItem checked={showGitLog()} onChange={setShowGitLog}>
-                        Show Git Log
-                    </ContextMenuCheckboxItem>
-                    <ContextMenuCheckboxItem checked={showHistory()} onChange={setShowHistory}>
-                        Show History
-                    </ContextMenuCheckboxItem>
-                    <ContextMenuSeparator/>
-                    <ContextMenuGroup>
-                        <ContextMenuGroupLabel>Branches</ContextMenuGroupLabel>
-                        <ContextMenuRadioGroup value={branch()} onChange={setBranch}>
-                            <ContextMenuRadioItem value="main">main</ContextMenuRadioItem>
-                            <ContextMenuRadioItem value="develop">develop</ContextMenuRadioItem>
-                        </ContextMenuRadioGroup>
                     </ContextMenuGroup>
                 </ContextMenuContent>
             </ContextMenuPortal>

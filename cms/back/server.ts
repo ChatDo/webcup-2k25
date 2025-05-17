@@ -9,7 +9,7 @@ const prefix = '/editor'
 
 server.register(fastifyStatic, {
     root: path.join(__dirname, 'public'),
-    prefix: "editor"
+    prefix: "/editor"
 })
 
 server.post(prefix + '/create-page', (request, reply) => {

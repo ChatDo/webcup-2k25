@@ -195,6 +195,7 @@ export default function PageBuilder() {
     };
 
     const savePage = async () => {
+        saveLocalStorage();
         const html = generateStaticPage();
         const elemJson = btoa(JSON.stringify(elements()));
 
@@ -202,7 +203,6 @@ export default function PageBuilder() {
             html,
             elements: elemJson,
         };
-
 
         const resp = await fetch("page", {
             method: "POST",

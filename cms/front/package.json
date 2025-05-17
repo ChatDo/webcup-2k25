@@ -21,6 +21,7 @@
     "vite-plugin-solid": "^2.11.6"
   },
   "dependencies": {
+    "@corvu/resizable": "^0.2.5",
     "@headlessui/react": "^2.2.3",
     "@heroicons/react": "^2.2.0",
     "@neodrag/solid": "^2.3.0",

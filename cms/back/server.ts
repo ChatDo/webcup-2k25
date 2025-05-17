@@ -1,23 +1,31 @@
 import fastify from "fastify"
 import fastifyStatic from "@fastify/static"
 import path from "node:path"
+import * as repl from "node:repl";
 
-const server = fastify()
+declare const PhusionPassenger: any
+const server = fastify({logger: true,})
+const prefix = '/editor'
 
 server.register(fastifyStatic, {
-    root: path.join(__dirname, 'public')
+    root: path.join(__dirname, 'public'),
+    prefix: "editor"
 })
 
-// Declare a route
-server.get('/', (request, reply) => {
-    reply.send({hello: 'world'})
+server.post(prefix + '/create-page', (request, reply) => {
+    reply.send(request.body);
 })
 
-// Run the server!
-server.listen({port: 3000}, (err, address) => {
+const callback: (err: Error | null, address: string) => void = (err, address) => {
     if (err) {
         server.log.error(err)
         process.exit(1)
     }
-    // Server is now listening on ${address}
-})
+    console.log(`Server listening on ${address}`)
+}
+
+if (typeof (PhusionPassenger) !== 'undefined')
+    server.listen({path: "passenger", host: "127.0.0.1"}, callback)
+else
+    server.listen({port: 3000}, callback)
+

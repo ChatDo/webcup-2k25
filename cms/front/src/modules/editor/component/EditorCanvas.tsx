@@ -59,7 +59,7 @@ export const EditorCanvas: Component = () => {
 
     const generateStaticPage = () => {
         const elementsHTML = components().map(el => {
-            const style = `position:absolute; left:${el.x}px; top:${el.y}px; background:rgba(255,255,255,0.9); border:1px solid #ccc; border-radius:8px; padding:12px; max-width:320px; box-shadow:0 2px 8px rgba(0,0,0,0.08);`;
+            const style = `position:absolute; left:${el.position.x}px; top:${el.position.y}px; background:rgba(255,255,255,0.9); border:1px solid #ccc; border-radius:8px; padding:12px; max-width:320px; box-shadow:0 2px 8px rgba(0,0,0,0.08);`;
             if (el.type === 'TextBlock') {
                 return `<div style="${style}">${el.props.content}</div>`;
             }
@@ -110,9 +110,11 @@ export const EditorCanvas: Component = () => {
                 >
                     {components().map(component => (
                         <Draggable updatePosition={(position) => {
-                            setComponents(components().map(c => c.id === component.id ? {...c, position} : c));
+                            const comp = components().find(c => c.id === component.id);
+                            if (!comp) return;
+                            comp.position = position;
                         }}>
-                        
+
                             <ComponentContextMenu remove={() => removeComponent(component.id)}>
                                 {renderComponent(component)}
                             </ComponentContextMenu>

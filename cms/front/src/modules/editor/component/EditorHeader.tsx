@@ -47,7 +47,7 @@ export const EditorHeader: Component<EditorHeaderProps> = (props) => {
 
                     onClick={props.onShare}
                 >
-                    Partagé
+                    Partager
                 </Button>
 
             </div>

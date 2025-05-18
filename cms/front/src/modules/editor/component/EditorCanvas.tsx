@@ -24,7 +24,7 @@ export const EditorCanvas: Component = () => {
             id: `component-${Date.now()}`,
             type,
             props: {...defaultProps},
-            position: { x: 60, y: 60 }
+            position: {x: 60, y: 60}
         };
 
         setComponents(prev => [...prev, newComponent]);
@@ -42,7 +42,7 @@ export const EditorCanvas: Component = () => {
     const updateComponentProps = (id: string, newProps: Record<string, any>) => {
         setComponents(prev =>
             prev.map(c =>
-                c.id === id ? { ...c, props: { ...c.props, ...newProps } } : c
+                c.id === id ? {...c, props: {...c.props, ...newProps}} : c
             )
         );
     };
@@ -115,11 +115,11 @@ export const EditorCanvas: Component = () => {
                     {components().map(component => (
                         <Draggable
                             key={component.id}
-                            position={component.position}
+                            position={() => component.position}
                             updatePosition={(position) => {
                                 setComponents(prev =>
                                     prev.map(c =>
-                                        c.id === component.id ? { ...c, position } : c
+                                        c.id === component.id ? {...c, position} : c
                                     )
                                 );
                             }}

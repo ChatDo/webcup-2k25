@@ -1,64 +1,74 @@
-import {Component, createEffect, createSignal, JSXElement, onMount} from "solid-js";
-import {EditorContextMenu} from "~/modules/editor/component/tmp/EditorContextMenu";
+import {Component, createSignal} from "solid-js";
+import {ComponentRegistry} from "~/modules/editor/componentRegistry";
+import {EditorContextMenu} from "./tmp/EditorContextMenu";
+import {Draggable} from "./tmp/Draggable";
 import {ElementSelectDialog} from "~/modules/editor/component/ElementSelectDialog";
-import {useEditorContext} from "~/modules/editor/context/EditorContext";
-import {Draggable} from "~/modules/editor/component/tmp/Draggable";
+import {ComponentContextMenu} from "~/modules/editor/component/tmp/ComponentContextMenu";
+
+interface PageComponent {
+    id: string;
+    type: string;
+    position: { x: number; y: number };
+    props: Record<string, any>;
+}
 
 export const EditorCanvas: Component = () => {
-    const [elements, setElements] = createSignal<JSXElement[]>([]);
-    const {setStaticPage} = useEditorContext();
+    const [components, setComponents] = createSignal<PageComponent[]>([]);
+    const [activeComponentId, setActiveComponentId] = createSignal<string | null>(null);
 
+    const addComponent = (type: string) => {
+        const defaultProps = ComponentRegistry.getDefaultProps(type) || {};
+        const newComponent = {
+            id: `component-${Date.now()}`,
+            type,
+            props: {...defaultProps}
+        };
 
-    onMount(() => {
-        const saved = localStorage.getItem("savedPage");
-        if (saved) setElements(JSON.parse(saved));
-    });
+        setComponents([...components(), newComponent]);
+        setActiveComponentId(newComponent.id);
+    };
 
-    const addElement = (type, content: string = "") => {
-        if (type === "text") {
-            const elem = {
-                id: Date.now(),
-                type,
-                content,
-                x: Math.random() * 500,
-                y: Math.random() * 500,
-            }
-            setElements(elms => [...elms, elem]);
+    const removeComponent = (id: string) => {
+        console.log(`Removing component with id: ${id}`);
+        setComponents(components().filter(c => c.id !== id));
+        if (activeComponentId() === id) {
+            setActiveComponentId(null);
         }
     };
 
-    const handleImageUpload = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (event) => addElement("image", event.target.result);
-        reader.readAsDataURL(file);
+    const updateComponentProps = (id: string, newProps: Record<string, any>) => {
+        setComponents(components().map(c =>
+            c.id === id ? {...c, props: {...c.props, ...newProps}} : c
+        ));
     };
 
-    const updatePosition = (id, x, y) => {
-        setElements(elms => elms.map(elm => elm.id === id ? {...elm, x, y} : elm));
-    };
+    const renderComponent = (component: PageComponent) => {
+        const ComponentToRender = ComponentRegistry.getComponent(component.type);
 
-    const removeElement = (id) => {
-        setElements(elms => elms.filter(elm => elm.id !== id));
-    };
+        if (!ComponentToRender) {
+            return <div>Unknown component type: {component.type}</div>;
+        }
 
-    const saveLocalStorage = () => {
-        localStorage.setItem("savedPage", JSON.stringify(elements()));
-        alert("Page saved!");
+        return (
+            <ComponentToRender
+                {...component.props}
+                onChange={(newProps) => updateComponentProps(component.id, newProps)}
+            />
+        );
     };
 
     const generateStaticPage = () => {
-        const elementsHTML = elements().map(el => {
+        const elementsHTML = components().map(el => {
             const style = `position:absolute; left:${el.x}px; top:${el.y}px; background:rgba(255,255,255,0.9); border:1px solid #ccc; border-radius:8px; padding:12px; max-width:320px; box-shadow:0 2px 8px rgba(0,0,0,0.08);`;
-            if (el.type === 'text') {
-                return `<div style="${style}">${el.content}</div>`;
+            if (el.type === 'TextBlock') {
+                return `<div style="${style}">${el.props.content}</div>`;
             }
-            if (el.type === 'image' || el.type === 'gif') {
-                return `<div style="${style}"><img src="${el.content}" style="max-width:100%; height:auto; display:block;" /></div>`;
+            if (el.type === 'ImageUpload' || el.type === 'Gif') {
+                return `<div style="${style}"><img src="${el.props.src}" style="max-width:100%; height:auto; display:block;" /></div>`;
             }
             return '';
         }).join('\n');
+
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,34 +87,19 @@ export const EditorCanvas: Component = () => {
 </html>`;
     };
 
-    const savePage = async () => {
-        saveLocalStorage();
-        const html = generateStaticPage();
-        const elemJson = btoa(JSON.stringify(elements()));
-
-        const body = {
-            html,
-            elements: elemJson,
-        };
-
-        const resp = await fetch("page", {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-
-        console.log(resp);
-    };
+    const downloadStaticPage = () => {
+        const blob = new Blob([generateStaticPage()], {type: 'text/html'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'static_page.html';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
 
     const [open, setOpen] = createSignal(false);
 
-    createEffect(() => {
-        console.log("Elements changed:", elements());
-        if (elements()) setStaticPage(generateStaticPage());
-    })
 
     return (
         <div class={`h-fit p-6`}>
@@ -113,19 +108,26 @@ export const EditorCanvas: Component = () => {
                     id="canvas"
                     class="relative w-full h-[80vh] border-2 border-gray-300 bg-white/20 rounded-xl overflow-hidden"
                 >
-                    {elements().map(element => (
-                        <Draggable
-                            key={element.id}
-                            {...element}
-                            updatePosition={updatePosition}
-                            removeElement={removeElement}
-                        />
+                    {components().map(component => (
+                        <Draggable updatePosition={(position) => {
+                            setComponents(components().map(c => c.id === component.id ? {...c, position} : c));
+                        }}>
+                        
+                            <ComponentContextMenu remove={() => removeComponent(component.id)}>
+                                {renderComponent(component)}
+                            </ComponentContextMenu>
+                        </Draggable>
                     ))}
                 </div>
             </EditorContextMenu>
+            <button
+                class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+                onClick={downloadStaticPage}
+            > Download
+            </button>
             <ElementSelectDialog open={open()} onClose={
                 () => setOpen(false)
-            } onAdd={addElement}/>
+            } onAdd={addComponent}/>
         </div>
     );
 }

@@ -1,12 +1,6 @@
-import {Component, JSXElement} from "solid-js";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "~/modules/solidui/components/dialog";
+import {Component, For} from "solid-js";
+import {Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle} from "~/modules/solidui/components/dialog";
+import {ComponentRegistry} from "~/modules/editor/ComponentRegistry";
 
 interface ElementSelectDialogProps {
     open: boolean;
@@ -25,13 +19,23 @@ export const ElementSelectDialog: Component<ElementSelectDialogProps> = (props) 
                     </DialogDescription>
                 </DialogHeader>
                 <div class="grid grid-cols-6 gap-4">
-                    <button type="button" class="btn" onClick={() => props.onAdd("text", "")}>
-                        Button
-                    </button>
+                    <For each={ComponentRegistry.getAll()}>
+                        {(component) => (
+                        <div class="flex flex-col items-center">
+                            <button
+                                class="p-2 border rounded"
+                                onClick={() => {
+                                    const defaultProps = ComponentRegistry.getDefaultProps(component.type);
+                                    props.onAdd(component.type, defaultProps!.content);
+                                    props.onClose();
+                                }}
+                            >
+                                <span>{component.label}</span>
+                            </button>
+                        </div>
+                        )}
+                    </For>
                 </div>
-                <DialogFooter>
-                    <button type="button" class="btn">Cancel</button>
-                </DialogFooter>
             </DialogContent>
         </Dialog>
     );

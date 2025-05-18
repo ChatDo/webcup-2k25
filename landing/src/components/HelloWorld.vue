@@ -1,127 +1,98 @@
 <template>
-  <div class="bg-white">
-    <header class="absolute inset-x-0 top-0 z-50">
-      <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
-        <div class="flex lg:flex-1">
-          <a href="#" class="-m-1.5 p-1.5">
-            <span class="sr-only">Your Company</span>
-            <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-          </a>
-        </div>
-        <div class="flex lg:hidden">
-          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = true">
-            <span class="sr-only">Ouvrir le menu</span>
-            <Bars3Icon class="size-6" aria-hidden="true" />
-          </button>
-        </div>
-      </nav>
-      <Dialog class="lg:hidden" @close="mobileMenuOpen = false" :open="mobileMenuOpen">
-        <div class="fixed inset-0 z-50" />
-        <DialogPanel class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-          <div class="flex items-center justify-between">
-            <a href="#" class="-m-1.5 p-1.5">
-              <span class="sr-only">Your Company</span>
-              <img class="h-8 w-auto" src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="" />
-            </a>
-            <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700" @click="mobileMenuOpen = false">
-              <span class="sr-only">Close menu</span>
-              <XMarkIcon class="size-6" aria-hidden="true" />
-            </button>
-          </div>
-          <div class="mt-6 flow-root">
-            <div class="-my-6 divide-y divide-gray-500/10">
-              <div class="py-6">
-                <a href="#" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Se connecter</a>
-              </div>
-            </div>
-          </div>
-        </DialogPanel>
-      </Dialog>
-    </header>
+  <div class="bg-gray-500 max-h-full">
 
     <div class="relative isolate px-6 pt-14 lg:px-8">
-
-<!-- BACKGROUND BLURRED - TOP -->
-      <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
+      <Header />
+      <!-- BACKGROUND BLURRED - TOP -->
+      <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
+           aria-hidden="true">
         <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg]
         bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem] shape-blurred-top "/>
       </div>
-<!-- BACKGROUND BLURRED - TOP -->
+      <!-- BACKGROUND BLURRED - TOP -->
 
-      <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
+      <div class="mx-auto max-w-2xl py-40 ">
         <div class="text-center">
-          <h1 class="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">En prévision de mon départ...</h1>
-          <p class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">ceci sera mon dernier mot.</p>
-          <div class="mt-10 flex items-center justify-center gap-x-6">
-            <a href="editor" class="rounded-md bg-indigo-600 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:bg-indigo-500
+          <h1 class="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">En attendant mon
+            départ...</h1>
+          <p class="mt-8 text-pretty text-xl font-medium text-gray-900 sm:text-xl/8">voici mon "au revoir".</p>
+          <div class="mt-10 flex justify-center gap-x-6">
+            <a href="editor" class="rounded-md bg-blue-800 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:bg-blue-500
             focus-visible:outline focus-visible:outline-offset-2 text-xl
             focus-visible:outline-indigo-600">Je suis prêt</a>
+            <a href="game" class="rounded-md bg-red-800 px-3.5 py-2.5 font-semibold text-white shadow-sm hover:bg-red-500
+            focus-visible:outline focus-visible:outline-offset-2 text-xl
+            focus-visible:outline-indigo-600">J'ai besoin de temps</a>
           </div>
         </div>
       </div>
 
-      <div class="relative">
+      <div class="relative mt-12">
         <div aria-hidden="true" class="absolute inset-0 flex items-center">
-          <div class="w-full border-t border-gray-300" />
+          <div class="w-full border-t border-gray-300"/>
         </div>
-        <div class="relative flex justify-center">
-          <span class="bg-white px-2 text-sm text-gray-500">En savoir plus</span>
+        <div id="more" class="relative flex justify-center">
+          <span class="bg-gray-300 px-2 text-xl font-bold text-gray-500">En savoir plus</span>
         </div>
       </div>
-
       <div class="max-w-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
-        <div class="max-w-1/2">
-
-          🎭 TheEnd.page
+        <div class="flex-1/2 max-w-1/2">
+          <div class="mt-10 text-2xl font-semibold flex justify-center text-gray-900 sm:text-7xl">
+            TheEnd.page
+          </div>
+          <div class="mt-3 text-xl flex justify-center font-bold text-gray-900 sm:text-xl">
+            La page de départ qu’on oublie pas.
+          </div>
+          <div class="mt-10 text-xl font-medium text-gray-900 sm:text-xl">
+            Peut importe la raison:
+          </div>
+          <ul class="list-disc pl-5 font-medim ml-12 ">
+            <li>
+              Un job quitté ?
+            </li>
+            <li>
+              Un projet terminé ?
+            </li>
+            <li>
+              Une rupture ?
+            </li>
+            <li>
+              Un canal Discord déserté ?
+            </li>
+          </ul>
           <br>
-          La page de départ qu’on n’oublie pas.
-          <br>
-          Un job quitté ?
-          <br>
-          Un projet terminé ?
-          <br>
-          Une rupture ?
-          <br>
-          Un canal Discord déserté ?
-          <br>
-
           Crée ta page de sortie : stylée, dramatique, ironique, touchante ou complètement absurde.
           <br>
           Ajoute des GIFs, des sons, des larmes (ou pas) et raconte ta version de l’histoire.
           <br>
 
-          👉 Une page unique à partager.
-          <br>
-          👉 Un dernier mot qui claque.
-          <br>
-          👉 Un adieu qui se transforme en légende.
-
+          <ul>
+            <li>
+              👉 Une page unique à partager.
+            </li>
+            <li>
+              👉 Un dernier mot qui claque.
+            </li>
+            <li>
+              👉 Un adieu qui se transforme en légende.
+            </li>
+          </ul>
           Parce que si c’est la fin…
           <br>
           Autant la rendre inoubliable. 💥
           <br>
         </div>
       </div>
-
-<!--BACKGROUND BLURRED - BOTTOM -->
-        <div class="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]" aria-hidden="true">
-          <div class="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2
-          bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem] shape-blurred-bottom"
-          />
-        <div>
-            <!--BACKGROUND BLURRED - BOTTOM -->
-      </div>
+      <!--BACKGROUND BLURRED - BOTTOM -->
     </div>
+    <Footer />
   </div>
-</div>
+
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Dialog, DialogPanel } from '@headlessui/vue'
-import { Bars3Icon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-const mobileMenuOpen = ref(false)
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
 </script>
 
 <style scoped>

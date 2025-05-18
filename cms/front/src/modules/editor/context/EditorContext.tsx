@@ -9,7 +9,6 @@ export const EditorProvider: ParentComponent = (props) => {
     const [staticPage, setStaticPage] = createSignal<string>()
     const [openShare, setOpenShare] = createSignal<boolean>()
     const [shareLink, setShareLink] = createSignal<string>()
-    
 
     return (
         <EditorContext.Provider value={{staticPage, setStaticPage}}>

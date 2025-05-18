@@ -2,6 +2,7 @@ import {ParentComponent} from "solid-js";
 import {createDraggable, type DragOptions} from "@neodrag/solid";
 
 interface DraggableProps {
+    key: string;
     resizable?: boolean;
     options?: DragOptions;
     position: { x: number, y: number };
@@ -12,7 +13,7 @@ export const Draggable: ParentComponent<DraggableProps> = (props) => {
     const {draggable} = createDraggable();
 
     return (
-        <div use:draggable={props.options || {
+        <div id={props.key}  use:draggable={props.options || {
             bounds: "parent",
             onDragEnd: (e) => {
                 const {x, y} = e.event;

@@ -1,9 +1,10 @@
 import {Component, createSignal} from "solid-js";
-import {ComponentRegistry} from "~/modules/editor/componentRegistry";
 import {EditorContextMenu} from "./tmp/EditorContextMenu";
 import {Draggable} from "./tmp/Draggable";
 import {ElementSelectDialog} from "~/modules/editor/component/ElementSelectDialog";
 import {ComponentContextMenu} from "~/modules/editor/component/tmp/ComponentContextMenu";
+import {useEditorContext} from "~/modules/editor/context/EditorContext";
+import {ComponentRegistry} from "~/modules/editor/ComponentRegistry";
 
 interface PageComponent {
     id: string;
@@ -15,31 +16,35 @@ interface PageComponent {
 export const EditorCanvas: Component = () => {
     const [components, setComponents] = createSignal<PageComponent[]>([]);
     const [activeComponentId, setActiveComponentId] = createSignal<string | null>(null);
+    const editorContext = useEditorContext()
 
     const addComponent = (type: string) => {
         const defaultProps = ComponentRegistry.getDefaultProps(type) || {};
-        const newComponent = {
+        const newComponent: PageComponent = {
             id: `component-${Date.now()}`,
             type,
-            props: {...defaultProps}
+            props: {...defaultProps},
+            position: { x: 60, y: 60 }
         };
 
-        setComponents([...components(), newComponent]);
+        setComponents(prev => [...prev, newComponent]);
         setActiveComponentId(newComponent.id);
     };
 
     const removeComponent = (id: string) => {
         console.log(`Removing component with id: ${id}`);
-        setComponents(components().filter(c => c.id !== id));
+        setComponents(prev => prev.filter(c => c.id !== id));
         if (activeComponentId() === id) {
             setActiveComponentId(null);
         }
     };
 
     const updateComponentProps = (id: string, newProps: Record<string, any>) => {
-        setComponents(components().map(c =>
-            c.id === id ? {...c, props: {...c.props, ...newProps}} : c
-        ));
+        setComponents(prev =>
+            prev.map(c =>
+                c.id === id ? { ...c, props: { ...c.props, ...newProps } } : c
+            )
+        );
     };
 
     const renderComponent = (component: PageComponent) => {
@@ -100,7 +105,6 @@ export const EditorCanvas: Component = () => {
 
     const [open, setOpen] = createSignal(false);
 
-
     return (
         <div class={`h-fit p-6`}>
             <EditorContextMenu addComponent={() => setOpen(true)}>
@@ -109,12 +113,17 @@ export const EditorCanvas: Component = () => {
                     class="relative w-full h-[80vh] border-2 border-gray-300 bg-white/20 rounded-xl overflow-hidden"
                 >
                     {components().map(component => (
-                        <Draggable updatePosition={(position) => {
-                            const comp = components().find(c => c.id === component.id);
-                            if (!comp) return;
-                            comp.position = position;
-                        }}>
-
+                        <Draggable
+                            key={component.id}
+                            position={component.position}
+                            updatePosition={(position) => {
+                                setComponents(prev =>
+                                    prev.map(c =>
+                                        c.id === component.id ? { ...c, position } : c
+                                    )
+                                );
+                            }}
+                        >
                             <ComponentContextMenu remove={() => removeComponent(component.id)}>
                                 {renderComponent(component)}
                             </ComponentContextMenu>

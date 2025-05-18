@@ -1,0 +1,37 @@
+{
+  "name": "vite-template-solid",
+  "version": "0.0.0",
+  "description": "",
+  "type": "module",
+  "scripts": {
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
+    "prod": "cp -r dist/* ../back/public"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.15.18",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.0",
+    "vite-plugin-solid": "^2.11.6"
+  },
+  "dependencies": {
+    "@corvu/resizable": "^0.2.5",
+    "@headlessui/react": "^2.2.3",
+    "@heroicons/react": "^2.2.0",
+    "@kobalte/core": "^0.13.9",
+    "@neodrag/solid": "^2.3.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "solid-emoji-picker": "^0.3.0",
+    "solid-icons": "^1.1.0",
+    "solid-js": "^1.9.5",
+    "tailwind-merge": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "https://solid-ui.com/schema.json",
+  "tsx": true,
+  "tailwind": {
+    "css": "src/App.module.css",
+    "config": "tailwind.config.js",
+    "prefix": ""
+  },
+  "aliases": {
+    "components": "~/modules/solidui/components",
+    "utils": "~/modules/solidui/utils"
+  }
+}
